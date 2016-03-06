@@ -47,6 +47,10 @@
             this.checkBoxArulhato = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBoxRendelheto = new System.Windows.Forms.CheckBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // comboTermek
@@ -218,11 +222,33 @@
             this.checkBoxRendelheto.TabIndex = 18;
             this.checkBoxRendelheto.UseVisualStyleBackColor = true;
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2});
+            this.dataGridView1.Location = new System.Drawing.Point(59, 396);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(225, 159);
+            this.dataGridView1.TabIndex = 19;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Bolt";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Készlet";
+            this.Column2.Name = "Column2";
+            // 
             // Termek
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(316, 429);
+            this.ClientSize = new System.Drawing.Size(328, 601);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.checkBoxRendelheto);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.checkBoxArulhato);
@@ -245,6 +271,7 @@
             this.Name = "Termek";
             this.Text = "Termek";
             this.Load += new System.EventHandler(this.Termek_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -271,5 +298,8 @@
         private System.Windows.Forms.CheckBox checkBoxArulhato;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox checkBoxRendelheto;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
     }
 }

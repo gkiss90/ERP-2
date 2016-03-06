@@ -46,6 +46,7 @@ namespace WindowsFormsApplication1
 
             comboBeszallito.SelectedIndex = comboBeszallito.FindString(beszallito);
 
+            ListFill(dRow.ItemArray.GetValue(0).ToString());
         }
 
         private void combofill()
@@ -141,7 +142,7 @@ namespace WindowsFormsApplication1
                 MaxRows = ds.Tables[0].Rows.Count;
                 comboBeszallitoFill();
                 combofill();
-                
+
 
                 NavigateRecords();
 
@@ -158,7 +159,7 @@ namespace WindowsFormsApplication1
             row[0] = txtID.Text;
             row[1] = txtEAN.Text;
             row[2] = txtNev.Text;
-            
+
             row[3] = Arulhatoe();
             row[4] = Rendelhetoe();
 
@@ -177,6 +178,9 @@ namespace WindowsFormsApplication1
             {
                 MessageBox.Show(err.Message);
             }
+
+            BoltKapcsolat();
+
             btnUj.Enabled = true;
 
             comboTermek.Enabled = true;
@@ -245,7 +249,7 @@ namespace WindowsFormsApplication1
             row[3] = Arulhatoe();
             row[4] = Rendelhetoe();
             row[5] = comboBeszallito.SelectedItem.ToString();
-            
+
             try
             {
                 objConnect.UpdateDatabase(ds);
@@ -257,5 +261,86 @@ namespace WindowsFormsApplication1
             }
             combofill();
         }
+
+
+
+        private void BoltKapcsolat()
+        {
+            try
+            {
+                DatabaseConnection objBoltok = new DatabaseConnection();
+                conTermek = Properties.Settings.Default.DatabaseConnectionString;
+
+                objBoltok.connection_string = conTermek;
+                objBoltok.Sql = "select * from bolt";
+
+                DataSet dsBoltok = objBoltok.GetConnection;
+
+                int MaxRowsBoltok = dsBoltok.Tables[0].Rows.Count;
+
+
+                objBoltok.Sql = "select * from bolt_termek";
+                DataSet dsKapcsolat = objBoltok.GetConnection;
+
+                for (int i = 0; i < MaxRowsBoltok; i++)
+                {
+                    DataRow boltRow = dsBoltok.Tables[0].Rows[i];
+                    DataRow row = dsKapcsolat.Tables[0].NewRow();
+                    row[0] = boltRow.ItemArray.GetValue(0).ToString();
+                    row[1] = txtID.Text;
+                    row[2] = 0;
+                    dsKapcsolat.Tables[0].Rows.Add(row);
+                }
+                objBoltok.UpdateDatabase(dsKapcsolat);
+
+                MessageBox.Show("Új termék hozzáadva a boltokhoz");
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+
+            }
+        }
+
+        private void ListFill(string IDtermek)
+        {
+            try
+            {
+                //listView1.Clear();
+                dataGridView1.Rows.Clear();
+            DatabaseConnection objKapcsolat = new DatabaseConnection();
+            conTermek = Properties.Settings.Default.DatabaseConnectionString;
+
+            objKapcsolat.connection_string = conTermek;
+                objKapcsolat.Sql = "select * from bolt_termek where termek_id = '" + IDtermek + "'";
+            DataSet dsKapcsolat = objKapcsolat.GetConnection;
+
+            int MaxRowsKapcsolat = dsKapcsolat.Tables[0].Rows.Count;
+            
+
+
+            for (int i = 0; i < MaxRowsKapcsolat; i++)
+            {
+                DataRow boltRow = dsKapcsolat.Tables[0].Rows[i];
+                    DataGridViewRow row = new DataGridViewRow();
+                    row.CreateCells(dataGridView1);
+                    row.Cells[0].Value = boltRow.ItemArray.GetValue(0).ToString();
+                    row.Cells[1].Value = boltRow.ItemArray.GetValue(2).ToString();
+                    dataGridView1.Rows.Add(row);
+
+                    /**
+                    ListViewItem item = new ListViewItem(boltRow.ItemArray.GetValue(0).ToString());
+                item.SubItems.Add(boltRow.ItemArray.GetValue(1).ToString());
+                    item.SubItems.Add(boltRow.ItemArray.GetValue(2).ToString());
+    ˛*/
+                    //listView1.Items.Add(item);
+            }
+            }
+        catch(Exception err)
+            {
+            MessageBox.Show(err.Message);
+            }
+        }
+
     }
 }
